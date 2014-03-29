@@ -22,6 +22,7 @@ Bundle 'tpope/vim-fugitive'
 Bundle 'tpope/vim-rails.git'
 Bundle 'tpope/vim-surround'
 Bundle 'rking/ag.vim'
+Bundle 'mileszs/ack.vim'
 Bundle 'ilake/vim-tslime'
 Bundle 'airblade/vim-gitgutter'
 Bundle 'godlygeek/tabular'
@@ -58,10 +59,17 @@ Bundle 'nathanaelkane/vim-indent-guides'
 Bundle 'rizzatti/funcoo.vim'
 Bundle 'rizzatti/dash.vim'
 Bundle 'othree/html5.vim'
+Bundle 'Lokaltog/vim-easymotion'
+Bundle 'kana/vim-smartinput'
+Bundle 'juvenn/mustache.vim'
+Bundle 'sjl/gundo.vim'
+Bundle 'greyblake/vim-preview'
+Bundle 'terryma/vim-expand-region'
 
 
 " http://stackoverflow.com/questions/1764263/what-is-the-leader-in-a-vimrc-file
-let mapleader=","
+" let mapleader=","
+let mapleader = "\<Space>"
 
 " Index ctags from any project, including those outside Rails
 map <Leader>ct :!ctags -R .<CR>
@@ -212,7 +220,30 @@ function! PromoteToLet()
   :normal ==
 endfunction
 :command! PromoteToLet :call PromoteToLet()
-:map <leader>l :PromoteToLet<cr>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" PROMOTE VARIABLE TO RSPEC Given
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! PromoteToGiven()
+  :normal! dd
+  " :exec '?^\s*it\>'
+  :normal! P
+  :.s/\(\w\+\) = \(.*\)$/Given(:\1) { \2 }/
+  :normal ==
+endfunction
+:command! PromoteToGiven :call PromoteToGiven()
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" PROMOTE VARIABLE TO RSPEC When
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! PromoteToWhen()
+  :normal! dd
+  " :exec '?^\s*it\>'
+  :normal! P
+  :.s/\(\w\+\) = \(.*\)$/When(:\1) { \2 }/
+  :normal ==
+endfunction
+:command! PromoteToWhen :call PromoteToWhen()
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " SET RSPEC TESTING FOCUS
@@ -222,7 +253,6 @@ function! SetFocus()
   :w
 endfunction
 :command! SetFocus :call SetFocus()
-:map <leader>f :SetFocus<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " SET RSPEC TESTING FOCUS
@@ -231,7 +261,6 @@ function! RemoveFocus()
   :.s/\(.*\), \?:focus => true do/\1 do
 endfunction
 :command! RemoveFocus :call RemoveFocus()
-:map <leader>F :RemoveFocus<cr>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Inspect Variable
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -240,7 +269,6 @@ function! PrintVariable()
   :w
 endfunction
 :command! PrintVariable :call PrintVariable()
-:map <leader>p :PrintVariable<cr>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Rails Logger Variable
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -249,7 +277,6 @@ function! RailsLoggerVariable()
   :w
 endfunction
 :command! RailsLoggerVariable :call RailsLoggerVariable()
-:map <leader>ll :RailsLoggerVariable<cr>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " SWITCH BETWEEN TEST AND PRODUCTION CODE
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -278,7 +305,6 @@ function! AlternateForCurrentFile()
   endif
   return new_file
 endfunction
-nnoremap <leader>. :call OpenTestAlternate()<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " RENAME CURRENT FILE
@@ -292,7 +318,6 @@ function! RenameFile()
         redraw!
     endif
 endfunction
-map <leader>n :call RenameFile()<cr>
 
 
 let s:tagfile = "tags"
@@ -355,12 +380,9 @@ nmap <F2> :FufFile **/<CR>
 let g:tagbar_autofocus = 1
 
 :noremap <F8> :bnext<CR>
+:noremap <F9> :qa<CR>
 
-" Faster shortcut for commenting, requiring T-Comment plugin
-map <leader>c <c-_><c-_>
 
-" Switch between the last two files
-nnoremap <leader><leader> <c-^>
 
 " http://vim.wikia.com/wiki/Alternative_tab_navigation
 nnoremap <S-t> :tabnew<CR>
@@ -400,8 +422,11 @@ command! -range AlignHash execute "<line1>,<line2>Align! Wlp1P0 :" | execute "<l
 " autocmd User Rails Rnavcommand reports app/models/reports
 let g:rails_projections = {
       \ "app/presenters/*.rb": { "command": "presenters" },
+      \ "app/serializers/*.rb": { "command": "serializers" },
       \ "app/observers/*.rb": { "command": "observers" },
-      \ "app/services/*.rb": { "command": "services" },
+      \ "app/workers/*.rb": { "command": "workers" },
+      \ "app/reports/*.rb": { "command": "reports" },
+      \ "app/queries/*.rb": { "command": "queries" },
       \ "app/validators/*.rb": { "command": "validators" },
       \ "app/extras/form_object/*.rb": {"command": "forms"},
       \ "app/forms/*.rb": {"command": "forms"},
@@ -411,6 +436,7 @@ let g:rails_projections = {
       \ "app/models/fields_data/*.rb": {"command": "fields"},
       \ "app/models/concerns/*.rb": {"command": ["cerns"]},
       \ "app/models/reports/*.rb": {"command": "reports"},
+      \ "spec/factories.rb": {"command": "factories"},
       \ "spec/factories/*.rb": {"command": "factories"},
       \ "spec/factories/fields/*.rb": {"command": "factories"},
       \ "spec/features/*.rb": {"command": "features"},
@@ -453,7 +479,6 @@ function! SearchDash()
   execute s:cmd
   redraw!
 endfunction
-map <leader>d :call SearchDash()<CR>
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -465,7 +490,6 @@ let g:multi_cursor_exit_from_insert_mode = 0
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Ctrlp
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-    map <leader>f :CtrlPMixed<CR>
 
     let g:ctrlp_regexp = 1
     let g:ctrlp_match_window_reversed = 0
@@ -482,10 +506,6 @@ let g:multi_cursor_exit_from_insert_mode = 0
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
     let g:no_turbux_mappings = 1
     let g:turbux_runner  = 'tslime'
-    map <leader>t <Plug>SendTestToTmux
-    map <leader>r <Plug>SendFocusedTestToTmux
-    map <leader>q :ResetTmuxVars<CR>
-    map <leader>e <Plug>SendLastFocusedTestToTmux
 
     let g:turbux_command_rspec  = 'zeus-rspec'        " default: rspec
 
@@ -499,7 +519,6 @@ let g:coffeeCheckHighlightErrorLine = 1
 " switch.vim
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Switch between the last two files
-nnoremap <leader>s :Switch<cr>
 nnoremap - :Switch<cr>
 
 
@@ -547,3 +566,43 @@ let g:indent_guides_color_change_percent = 5
 let g:indent_guides_auto_colors = 0
 autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=red   ctermbg=232
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=233
+
+
+:map <leader>l :PromoteToLet<cr>
+:map <leader>g :PromoteToGiven<cr>
+:map <leader>w :PromoteToWhen<cr>
+:map <leader>f :SetFocus<cr>
+" :map <leader>F :RemoveFocus<cr>
+:map <leader>p :PrintVariable<cr>
+:map <leader>ll :RailsLoggerVariable<cr>
+nnoremap <leader>. :call OpenTestAlternate()<cr>
+map <leader>n :call RenameFile()<cr>
+" Faster shortcut for commenting, requiring T-Comment plugin
+map <leader>c <c-_><c-_>
+" Switch between the last two files
+nnoremap <leader><leader> <c-^>
+map <leader>d :call SearchDash()<CR>
+map <leader>f :CtrlPMixed<CR>
+map <leader>t <Plug>SendTestToTmux
+map <leader>r <Plug>SendFocusedTestToTmux
+map <leader>q :ResetTmuxVars<CR>
+map <leader>e <Plug>SendLastFocusedTestToTmux
+nnoremap <leader>s :Switch<cr>
+map <leader>nn :sp ~/rails_app/gollum/Home.md<CR>
+map <leader>nf :sp ~/rails_app/gollum/faria.md<CR>
+map <leader>nk :sp ~/rails_app/gollum/keybridge.md<CR>
+nnoremap <F8> :GundoToggle<CR>
+imap jj <ESC>
+imap kk <ESC>
+vmap v <Plug>(expand_region_expand)
+vmap <C-v> <Plug>(expand_region_shrink)
+" vp doesn't replace paste buffer
+function! RestoreRegister()
+  let @" = s:restore_reg
+  return ''
+endfunction
+function! s:Repl()
+  let s:restore_reg = @"
+  return "p@=RestoreRegister()\<cr>"
+endfunction
+vmap <silent> <expr> p <sid>Repl()

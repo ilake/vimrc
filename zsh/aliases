@@ -1,0 +1,43 @@
+alias cdr='cd /Users/iamilake/rails_app/'
+alias srv='ruby script/server'
+alias sql='mysql -uroot'
+alias cl='find . -name *.swp -exec rm {} \;'
+alias start_mysql_proxy='mysql-proxy --proxy-backend-addresses=127.0.0.1:3306 --daemon --pid-file=/var/run/mysql-proxy.pid';
+alias rakedebug='rake restart DEBUG=true;'
+alias debug='rdebug -c'
+alias kd='killall deskbar-applet'
+alias ll='ls -al'
+alias a='ls -lrthG'
+alias ls='ls -lrthG'
+alias mem='memcached -l 127.0.0.1 -P 11211 -m 128 -d'
+alias start_mysql='/usr/local/bin/mysqld_safe &'
+alias ec2con='ssh -i /Users/iamilake/.ec2/westexviewkey root@production.outcircle.com'
+alias sshoutcircle='ssh root@outcircle.com'
+alias ec2conlive='ssh -i /Users/iamilake/.ec2/westliveplustest root@production.cloudonline.com.tw'
+alias ssh-agent-add='eval `ssh-agent -s`; ssh-add'
+alias default-shell='ssh-agent-add'
+alias redis-start='redis-server /usr/local/etc/redis.conf'
+alias annotate='bundle exec annotate --exclude tests,fixtures -p before'
+alias http-stop='sudo apachectl stop'
+alias http-start='sudo apachectl start'
+alias mysql-start="/Library/StartupItems/MySQLCOM/MySQLCOM start"
+alias mysql-stop="/Library/StartupItems/MySQLCOM/MySQLCOM stop"
+alias port="lsof -i | grep LISTEN"
+alias report-all-services="cd ~/rails_app/optimis_prj/data-wrangler ; bundle exec script/background_runner start ; cd ~/rails_app/optimis_prj/optimis ; QUEUE=* bundle exec rake environment resque:work"
+alias z='zeus'
+alias khan-start='python -m SimpleHTTPServer'
+alias mvim='/Applications/MacVim.app/Contents/MacOS/MacVim'
+alias st2='/Applications/Sublime\ Text\ 2.app/Contents/MacOS/Sublime\ Text\ 2'
+alias mongod='mongod run --config /usr/local/etc/mongod.conf'
+alias rpry='rails-console-pry -r pry-doc -r awesome_print'
+alias lsp='lsof -i | grep LISTEN' # for macox
+alias nlsp='netstat -nlp' # for linux
+alias c='clear' # for linux
+alias color='perl ~/Dropbox/colortest -w'
+alias zr='zeus-rspec'
+alias retag='ctags --languages=ruby -R --exclude=.svn --exclude=.git --exclude=log --exclude=tmp *'
+alias rmigrate="rake db:migrate"
+alias rmigratetest="rake db:test:prepare"
+alias zmigrate="z rake db:migrate"
+alias zmigratetest="z rake db:test:prepare"
+alias fy="ydict"
