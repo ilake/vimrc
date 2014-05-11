@@ -587,6 +587,7 @@ map <leader>t <Plug>SendTestToTmux
 map <leader>r <Plug>SendFocusedTestToTmux
 map <leader>q :ResetTmuxVars<CR>
 map <leader>e <Plug>SendLastFocusedTestToTmux
+map <leader><F1> :NERDTreeFind<CR>
 nnoremap <leader>s :Switch<cr>
 map <leader>nn :sp ~/rails_app/gollum/Home.md<CR>
 map <leader>nf :sp ~/rails_app/gollum/faria.md<CR>
@@ -606,3 +607,6 @@ function! s:Repl()
   return "p@=RestoreRegister()\<cr>"
 endfunction
 vmap <silent> <expr> p <sid>Repl()
+" command alias
+command! To tabo
+command! Tm tabm
