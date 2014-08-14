@@ -65,6 +65,7 @@ Bundle 'juvenn/mustache.vim'
 Bundle 'sjl/gundo.vim'
 Bundle 'greyblake/vim-preview'
 Bundle 'terryma/vim-expand-region'
+Bundle 'mattn/emmet-vim.git'
 
 
 " http://stackoverflow.com/questions/1764263/what-is-the-leader-in-a-vimrc-file
@@ -566,6 +567,12 @@ let g:indent_guides_color_change_percent = 5
 let g:indent_guides_auto_colors = 0
 autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=red   ctermbg=232
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=233
+
+
+" emmet-vim Enable just for html/css
+" let g:user_emmet_install_global = 0
+" autocmd FileType html,css EmmetInstall
+let g:user_emmet_leader_key='<C-M>'
 
 
 :map <leader>l :PromoteToLet<cr>
