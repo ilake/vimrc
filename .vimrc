@@ -1,11 +1,14 @@
 set nocompatible               " be iMproved
 filetype off                   " required!
-
+"set rtp+=~/.vim/bundle/Vundle.vim
+"call vundle#begin()
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
+" Launch vim, run :BundleInstall to install plugins
 " let Vundle manage Vundle
 " required! 
+"Plugin 'VundleVim/Vundle.vim'
 Bundle 'gmarik/vundle'
 
 " My Bundles here:
@@ -13,8 +16,7 @@ Bundle 'gmarik/vundle'
 " original repos on github
 Bundle 'ervandew/supertab'
 Bundle 'ervandew/screen'
-Bundle 'scrooloose/nerdtree'
-Bundle 'Lokaltog/vim-easymotion'
+" Bundle 'Lokaltog/vim-easymotion'
 Bundle 'danro/rename.vim'
 Bundle 'tomtom/tcomment_vim'
 Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
@@ -32,7 +34,7 @@ Bundle 'kchmck/vim-coffee-script'
 Bundle 'claco/jasmine.vim'
 Bundle 'mhinz/vim-startify'
 Bundle 'majutsushi/tagbar'
-Bundle 'othree/coffee-check.vim'
+" Bundle 'othree/coffee-check.vim'
 "Bundle 'LnL7/vim-tslime'
 " Bundle 'kikijump/tslime.vim'
 Bundle 'ilake/vim-turbux'
@@ -49,10 +51,10 @@ Bundle 'vim-scripts/SingleCompile'
 Bundle 'vim-scripts/Align'
 " state machine compiler
 Bundle 'jayferd/ragel.vim'
-Bundle 'tpope/vim-markdown'
+" Bundle "plasticboy/vim-markdown"
 Bundle 'AndrewRadev/switch.vim'
 " Bundle 'Keithbsmiley/rspec.vim'
-Bundle 'jelera/vim-javascript-syntax'
+Bundle 'pangloss/vim-javascript'
 " Bundle 'vim-ruby/vim-ruby'
 Bundle 'hSATAC/rspec.vim'
 Bundle 'nathanaelkane/vim-indent-guides'
@@ -66,6 +68,14 @@ Bundle 'sjl/gundo.vim'
 Bundle 'greyblake/vim-preview'
 Bundle 'terryma/vim-expand-region'
 Bundle 'mattn/emmet-vim.git'
+Bundle 'tpope/vim-haml'
+Bundle 'mxw/vim-jsx'
+Bundle 'isRuslan/vim-es6'
+Bundle 'Shougo/unite.vim'
+Bundle 'Shougo/vimproc.vim'
+Bundle 'tomlion/vim-solidity'
+Bundle 'leafgarland/typescript-vim'
+Bundle 'scrooloose/nerdtree'
 
 
 " http://stackoverflow.com/questions/1764263/what-is-the-leader-in-a-vimrc-file
@@ -113,7 +123,7 @@ set viminfo='20,\"50    " read/write a .viminfo file, don't store more than
                         " 50 lines of registers
 set textwidth=0         " Don't wrap lines by default
 set expandtab
-set tabstop=2
+set tabstop=4
 set shiftwidth=2
 set softtabstop=2
 set autoindent
@@ -171,7 +181,7 @@ set wildmenu
 " set folding method by syntax
 set foldmethod=syntax
 set foldlevelstart=20
-set colorcolumn=120
+set colorcolumn=80
 
 " Display extra whitespace
 set list listchars=tab:»·,trail:·
@@ -195,6 +205,7 @@ augroup myfiletypes
     "for ruby, autoindent with two spaces, always expand tabs
   autocmd FileType ruby,haml,eruby,yaml,html,javascript,coffee,sass,cucumber set ai sw=2 sts=2 et
   autocmd FileType python set sw=4 sts=4 et
+  autocmd Filetype gitcommit setlocal spell textwidth=72
 augroup END
 
 augroup vimrcEx
@@ -397,6 +408,9 @@ au BufNewFile,BufRead *.json set filetype=ruby
 
 set noswapfile
 
+" https://github.com/mxw/vim-jsx
+let g:jsx_ext_required = 0
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " STATUS LINE
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -508,7 +522,7 @@ let g:multi_cursor_exit_from_insert_mode = 0
     let g:no_turbux_mappings = 1
     let g:turbux_runner  = 'tslime'
 
-    let g:turbux_command_rspec  = 'zeus-rspec'        " default: rspec
+    let g:turbux_command_rspec  = 'rspec'        " default: rspec
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -573,6 +587,7 @@ autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=233
 " let g:user_emmet_install_global = 0
 " autocmd FileType html,css EmmetInstall
 let g:user_emmet_leader_key='<C-M>'
+nnoremap <leader>m <C-M>
 
 
 :map <leader>l :PromoteToLet<cr>
@@ -597,6 +612,7 @@ map <leader>e <Plug>SendLastFocusedTestToTmux
 map <leader><F1> :NERDTreeFind<CR>
 nnoremap <leader>s :Switch<cr>
 map <leader>nn :sp ~/rails_app/gollum/Home.md<CR>
+map <leader>nm :sp ~/rails_app/gollum/電影.md<CR>
 map <leader>nf :sp ~/rails_app/gollum/faria.md<CR>
 map <leader>nk :sp ~/rails_app/gollum/keybridge.md<CR>
 nnoremap <F8> :GundoToggle<CR>
@@ -617,3 +633,11 @@ vmap <silent> <expr> p <sid>Repl()
 " command alias
 command! To tabo
 command! Tm tabm
+
+nnoremap <silent> <leader>g :<C-u>Unite grep:. -buffer-name=search-buffer<CR>
+if executable('pt')
+  let g:unite_source_grep_command = 'pt'
+  let g:unite_source_grep_default_opts = '--nogroup --nocolor'
+  let g:unite_source_grep_recursive_opt = ''
+  let g:unite_source_grep_encoding = 'utf-8'
+endif
